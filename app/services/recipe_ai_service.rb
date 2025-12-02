@@ -30,8 +30,8 @@ class RecipeAiService
     # Create AI::Chat instance
     chat = AI::Chat.new
 
-    # Add the prompt
-    chat.add(prompt)
+    # Add the prompt using the user method
+    chat.user(prompt)
 
     # Generate response
     response = chat.generate!

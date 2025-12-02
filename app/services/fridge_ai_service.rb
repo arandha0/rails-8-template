@@ -24,8 +24,8 @@ class FridgeAiService
     # Create AI::Chat instance
     chat = AI::Chat.new
 
-    # Add the prompt with the image
-    chat.add(prompt, uploaded_file)
+    # Add the prompt with the image using the user method
+    chat.user(prompt, image: uploaded_file)
 
     # Generate response
     response = chat.generate!
