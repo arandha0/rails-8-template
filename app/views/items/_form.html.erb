@@ -1,0 +1,32 @@
+<%= form_with(model: item, local: true) do |form| %>
+  <% if item.errors.any? %>
+    <article style="background-color: #ffebee; border-left: 4px solid #f44336;">
+      <h4><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h4>
+      <ul>
+        <% item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </article>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, placeholder: "e.g., Whole Milk", required: true %>
+  </div>
+
+  <div>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, min: 1, value: item.quantity || 1 %>
+  </div>
+
+  <div>
+    <%= form.label :expiration_date, "Expiration Date (optional)" %>
+    <%= form.date_field :expiration_date %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Item", role: "button" %>
+    <%= link_to "Cancel", items_path, role: "button", class: "secondary" %>
+  </div>
+<% end %>

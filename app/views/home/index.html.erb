@@ -1,0 +1,40 @@
+<% content_for :title, "Welcome to Fridge Scanner" %>
+
+<div style="text-align: center; padding: 3rem 0;">
+  <h1 style="font-size: 3rem; margin-bottom: 1rem;">🍎 Fridge Scanner</h1>
+  <p style="font-size: 1.5rem; margin-bottom: 2rem;">Smart AI-powered fridge management and meal planning</p>
+
+  <article>
+    <h2>How it works</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: left; margin-top: 2rem;">
+      <div>
+        <h3>1. Scan Your Fridge</h3>
+        <p>Upload a photo of your fridge or grocery haul</p>
+      </div>
+      <div>
+        <h3>2. AI Detection</h3>
+        <p>Our AI identifies items and estimates expiration dates</p>
+      </div>
+      <div>
+        <h3>3. Get Recipes</h3>
+        <p>Receive personalized meal suggestions based on your ingredients</p>
+      </div>
+    </div>
+  </article>
+
+  <article style="margin-top: 2rem;">
+    <h2>Features</h2>
+    <ul style="text-align: left;">
+      <li>📸 AI-powered image recognition for automatic item detection</li>
+      <li>📅 Track expiration dates and get alerts for items expiring soon</li>
+      <li>🍳 Get personalized recipe suggestions based on available ingredients</li>
+      <li>✏️ Manually add, edit, or remove items</li>
+      <li>🔒 Secure user accounts with authentication</li>
+    </ul>
+  </article>
+
+  <div style="margin-top: 3rem;">
+    <%= link_to "Get Started", new_user_registration_path, role: "button", style: "font-size: 1.2rem;" %>
+    <%= link_to "Sign In", new_user_session_path, role: "button", class: "secondary", style: "font-size: 1.2rem;" %>
+  </div>
+</div>

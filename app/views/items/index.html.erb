@@ -1,0 +1,83 @@
+<% content_for :title, "My Fridge Inventory" %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h1>My Fridge Inventory</h1>
+  <div>
+    <%= link_to "Scan Fridge", scan_fridge_items_path, role: "button" %>
+    <%= link_to "Add Item Manually", new_item_path, role: "button", class: "secondary" %>
+  </div>
+</div>
+
+<% if @expiring_soon.any? %>
+  <article style="background-color: #ffebee; border-left: 4px solid #f44336;">
+    <h3>Expiring Soon!</h3>
+    <p>These items will expire within 3 days:</p>
+    <ul>
+      <% @expiring_soon.each do |item| %>
+        <li>
+          <strong><%= item.name %></strong> -
+          Expires <%= item.expiration_date ? item.expiration_date.strftime("%b %d, %Y") : "Unknown" %>
+        </li>
+      <% end %>
+    </ul>
+  </article>
+<% end %>
+
+<% if @items.any? %>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Quantity</th>
+          <th>Expiration Date</th>
+          <th>Source</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr>
+            <td><strong><%= item.name %></strong></td>
+            <td><%= item.quantity %></td>
+            <td>
+              <% if item.expiration_date %>
+                <%= item.expiration_date.strftime("%b %d, %Y") %>
+                <% days_until = (item.expiration_date - Date.today).to_i %>
+                <% if days_until < 0 %>
+                  <small style="color: #f44336;">(Expired <%= days_until.abs %> days ago)</small>
+                <% elsif days_until <= 3 %>
+                  <small style="color: #ff9800;">(Expires in <%= days_until %> days)</small>
+                <% end %>
+              <% else %>
+                <small>Not set</small>
+              <% end %>
+            </td>
+            <td>
+              <% if item.ai_detected %>
+                <small>AI Detected</small>
+              <% else %>
+                <small>Manual</small>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to "Edit", edit_item_path(item) %>
+              <%= link_to "Delete", item_path(item),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                  style: "color: #f44336;" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </figure>
+<% else %>
+  <article>
+    <h3>Your fridge is empty!</h3>
+    <p>Get started by either scanning your fridge or manually adding items.</p>
+    <div>
+      <%= link_to "Scan Fridge Image", scan_fridge_items_path, role: "button" %>
+      <%= link_to "Add Item Manually", new_item_path, role: "button", class: "secondary" %>
+    </div>
+  </article>
+<% end %>

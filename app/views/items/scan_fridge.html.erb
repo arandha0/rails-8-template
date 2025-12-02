@@ -1,0 +1,32 @@
+<% content_for :title, "Scan Fridge" %>
+
+<h1>Scan Your Fridge</h1>
+
+<article>
+  <p>Upload a photo of your fridge or recent grocery haul, and our AI will automatically detect items and estimate their expiration dates.</p>
+</article>
+
+<%= form_with url: analyze_image_items_path, multipart: true do |form| %>
+  <div>
+    <%= form.label :image, "Upload Fridge/Grocery Image" %>
+    <%= form.file_field :image, accept: "image/*", required: true %>
+    <small>Supported formats: JPG, PNG, WebP</small>
+  </div>
+
+  <div>
+    <%= form.submit "Analyze Image", role: "button" %>
+    <%= link_to "Cancel", items_path, role: "button", class: "secondary" %>
+  </div>
+<% end %>
+
+<article>
+  <details>
+    <summary>Tips for best results</summary>
+    <ul>
+      <li>Make sure the image is well-lit</li>
+      <li>Items should be clearly visible</li>
+      <li>Try to capture labels and packaging</li>
+      <li>Avoid blurry images</li>
+    </ul>
+  </details>
+</article>

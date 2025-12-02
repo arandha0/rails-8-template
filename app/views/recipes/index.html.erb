@@ -1,0 +1,75 @@
+<% content_for :title, "Recipe Suggestions" %>
+
+<h1>Recipe Suggestions</h1>
+
+<article>
+  <p>Based on the items in your fridge, here are some recipes you can make!</p>
+</article>
+
+<div style="margin-bottom: 2rem;">
+  <strong>Meal Type:</strong>
+  <%= link_to "Breakfast", recipes_path(meal_type: "breakfast"),
+      role: "button",
+      class: (@meal_type == "breakfast" ? "" : "secondary"),
+      style: "margin-right: 0.5rem;" %>
+  <%= link_to "Lunch", recipes_path(meal_type: "lunch"),
+      role: "button",
+      class: (@meal_type == "lunch" ? "" : "secondary"),
+      style: "margin-right: 0.5rem;" %>
+  <%= link_to "Dinner", recipes_path(meal_type: "dinner"),
+      role: "button",
+      class: (@meal_type == "dinner" ? "" : "secondary"),
+      style: "margin-right: 0.5rem;" %>
+  <%= link_to "Snack", recipes_path(meal_type: "snack"),
+      role: "button",
+      class: (@meal_type == "snack" ? "" : "secondary") %>
+</div>
+
+<% if @error_message %>
+  <article style="background-color: #ffebee; border-left: 4px solid #f44336;">
+    <%= @error_message %>
+  </article>
+<% end %>
+
+<% if @items.empty? %>
+  <article>
+    <h3>Your fridge is empty!</h3>
+    <p>Add some items to your fridge first to get recipe suggestions.</p>
+    <%= link_to "Go to My Fridge", items_path, role: "button" %>
+  </article>
+<% elsif @recipes.any? %>
+  <% @recipes.each do |recipe| %>
+    <article>
+      <h3><%= recipe["name"] %></h3>
+
+      <div style="margin-bottom: 1rem;">
+        <strong style="color: #4caf50;">✓ Items you have:</strong>
+        <% if recipe["ingredients_i_have"].any? %>
+          <ul style="margin-top: 0.5rem;">
+            <% recipe["ingredients_i_have"].each do |ingredient| %>
+              <li><%= ingredient %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p><small>None</small></p>
+        <% end %>
+      </div>
+
+      <% if recipe["missing_ingredients"].any? %>
+        <div style="margin-bottom: 1rem;">
+          <strong style="color: #ff9800;">⚠ Missing ingredients:</strong>
+          <ul style="margin-top: 0.5rem;">
+            <% recipe["missing_ingredients"].each do |ingredient| %>
+              <li><%= ingredient %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <details>
+        <summary>Cooking Instructions</summary>
+        <p><%= recipe["instructions"] %></p>
+      </details>
+    </article>
+  <% end %>
+<% end %>

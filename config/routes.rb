@@ -1,4 +1,21 @@
 Rails.application.routes.draw do
-  # This is a blank app! Pick your first screen, build out the RCAV, and go from there. E.g.:
-  # get("/your_first_screen", { :controller => "pages", :action => "first" })
+  # Devise routes for authentication
+  devise_for :users
+
+  # Root route
+  root "home#index"
+
+  # Items (fridge inventory)
+  resources :items do
+    collection do
+      get "scan_fridge"
+      post "analyze_image"
+    end
+  end
+
+  # Recipes (meal suggestions)
+  resources :recipes, only: [:index]
+
+  # Health check
+  get "up" => "rails/health#show", as: :rails_health_check
 end
